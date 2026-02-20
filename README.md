@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# QuizJS 🧠⏳
 
-## Getting Started
+QuizJS is an interactive, timed trivia application built using **Next.js** and **React**. Test your knowledge with dynamically generated questions from the Open Trivia Database, beat the 15-second clock, and track your high score!
 
-First, run the development server:
+## 🚀 Features
+
+* **Dynamic Trivia:** Automatically fetches 10 random multiple-choice questions per game using the [Open Trivia Database (OpenTDB) API](https://opentdb.com/).
+* **Countdown Timer:** The pressure is on! You have exactly 15 seconds to answer each question. If the timer hits zero, the game automatically advances to the next question.
+* **Score Tracking:** Keeps a running tally of your correct answers.
+* **Seamless Replayability:** Once you finish the 10 questions, you can instantly hit "Start" to fetch a fresh batch of questions and play again.
+* **Component-Based UI:** Built with clean, separate React components for the timer, score, question cards, and start button.
+
+## 🛠️ Technologies Used
+
+* **Framework:** [Next.js](https://nextjs.org/) (v16.1.6)
+* **Library:** [React](https://react.dev/) (v19.2.3)
+* **API:** [Open Trivia Database](https://opentdb.com/)
+* **Styling:** CSS Modules
+
+## 📂 Project Structure
+
+```text
+/src
+├── app
+│   ├── page.jsx                # Main game logic, state management, and API fetching
+│   └── page.module.css         # Main layout styling
+└── Components
+    ├── QuestionCard
+    │   └── QuestionCard.jsx    # Renders the current question and answer buttons
+    ├── Score
+    │   ├── Score.jsx           # Displays the current score
+    │   └── Score.module.css
+    ├── StartButton
+    │   └── StartButton.jsx     # Button to initialize/restart the game
+    └── Timer
+        ├── Timer.jsx           # Renders the countdown timer (15s to 0s)
+        └── Timer.module.css
+
+```
+
+## 🔧 Getting Started
+
+First, install the dependencies:
+
+```bash
+npm install
+# or
+yarn install
+
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:3000) with your browser to start playing!
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🔮 Future Improvements
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Answer Shuffling:** Currently, the correct answer and incorrect answers render in a fixed order. An excellent next step would be implementing a randomizer array (like the Fisher-Yates shuffle) in `QuestionCard.jsx` so the correct answer moves around!
+* **Difficulty Selection:** Add a dropdown menu to let users pass a `&difficulty=easy/medium/hard` parameter into the API fetch URL.
+* **End Screen:** Add a dedicated "Game Over" screen that displays the final percentage score and feedback before showing the restart button.
 
-## Learn More
+## 🤝 Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! If you have ideas for new features or UI improvements, feel free to fork the repository and submit a pull request.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Made with ❤️ by Adrian Ablaza
