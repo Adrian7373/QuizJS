@@ -1,21 +1,24 @@
+import { useMemo } from "react";
+import style from "./QuestionCard.module.css";
 
+export default function QuestionCard({ result, checkAnswer, score, timer }) {
 
-export default function QuestionCard({ result, checkAnswer }) {
+    const shuffledAnswers = useMemo(() => {
+        const combined = [...result.incorrect_answers, result.correct_answer];
+        combined.sort(() => Math.random() - 0.5)
+        console.log(combined);
+        return combined;
+    }, [result]);
+
     return (
-        <div>
-            <p>{result.question}</p>
-            <button onClick={() => {
-                checkAnswer(result.correct_answer);
-            }}>{result.correct_answer}</button>
-            <button onClick={() => {
-                checkAnswer(result.incorrect_answers[0]);
-            }}>{result.incorrect_answers[0]}</button>
-            <button onClick={() => {
-                checkAnswer(result.incorrect_answers[1]);
-            }}>{result.incorrect_answers[1]}</button>
-            <button onClick={() => {
-                checkAnswer(result.incorrect_answers[2]);
-            }}>{result.incorrect_answers[2]}</button>
+        <div className={style.card}>
+            <div className={style.info}>{score}{timer}</div>
+            <p className={style.question} dangerouslySetInnerHTML={{ __html: result.question }}></p>
+            <div className={style.answers}>
+                {shuffledAnswers.map((answer, index) => {
+                    return <button key={index} onClick={() => checkAnswer(answer)}>{answer}</button>
+                })}
+            </div>
         </div>
     )
 }

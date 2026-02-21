@@ -1,0 +1,8 @@
+.mainDiv {
+    width: 40%;
+    border: 1px solid red;
+    margin: auto;
+    height: 80vh;
+    padding: 50px;
+    border-radius: 30px;
+}

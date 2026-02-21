@@ -6,6 +6,7 @@ import QuestionCard from "@/Components/QuestionCard/QuestionCard";
 import Score from "@/Components/Score/Score";
 import Timer from "@/Components/Timer/Timer";
 import StartButton from "@/Components/StartButton/StartButton";
+import { ScoreTimeContext } from "@/context/ScoreTime";
 
 export default function Home() {
 
@@ -40,15 +41,15 @@ export default function Home() {
       }, 1000);
       console.log("Timer started");
     }
-
     return () => clearInterval(intervalRef.current);
   }, [questionIndex, isRunning, isLoading])
 
+  /*
   useEffect(() => {
     if (countdown <= 0) {
       setQuestionIndex((index) => index + 1);
     }
-  }, [countdown]);
+  }, [countdown]); */
 
   const checkAnswer = (answer) => {
     if (answer === questions.results[questionIndex].correct_answer) {
@@ -78,24 +79,38 @@ export default function Home() {
   if (questions && !isFinished && isRunning) {
     return (
       <div className={style.mainDiv}>
-        <Timer
-          timeLeft={countdown}
-        />
-        <Score
-          score={score}
-        />
-        <QuestionCard
-          result={questions.results[questionIndex]}
-          checkAnswer={checkAnswer}
+        <ScoreTimeContext.Provider value={{
+          score,
+          countdown
+        }}>
+
+          <QuestionCard
+            result={questions.results[questionIndex]}
+            checkAnswer={checkAnswer}
+            score={<Score />}
+            timer={<Timer />}
+          ></QuestionCard>
+        </ScoreTimeContext.Provider>
+      </div>
+    )
+  } else if (!isRunning) {
+    return (
+      <div>
+        <h1>Start Game</h1>
+        < StartButton
+          start={startGame}
         />
       </div>
     )
   } else {
     return (
       <div>
-        <Score
-          score={score}
-        />
+        <h1>Game Over</h1>
+        <ScoreTimeContext.Provider value={{ score }}>
+          <Score
+            score={score}
+          />
+        </ScoreTimeContext.Provider>
         <StartButton
           start={startGame}
         />
