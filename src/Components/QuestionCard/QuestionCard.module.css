@@ -22,6 +22,6 @@
 
 
 .question {
-    border: 1px solid;
     font-size: 36px;
+    text-align: justify;
 }

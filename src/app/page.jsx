@@ -7,6 +7,7 @@ import Score from "@/Components/Score/Score";
 import Timer from "@/Components/Timer/Timer";
 import StartButton from "@/Components/StartButton/StartButton";
 import { ScoreTimeContext } from "@/context/ScoreTime";
+import DifficultySelector from "@/Components/DifficultySelector/DifficultySelector";
 
 export default function Home() {
 
@@ -16,22 +17,26 @@ export default function Home() {
   const [countdown, setCountdown] = useState(15000);
   const [isLoading, setIsLoading] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
+  const [difficulty, setDifficulty] = useState("easy");
   const intervalRef = useRef(null);
 
-  const fetchQuestions = async () => {
-    try {
-      const response = await fetch("https://opentdb.com/api.php?amount=10&type=multiple");
-      const data = await response.json();
-      setQuestions(data);
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-    }
+  const fetchQuestions = () => {
+    const rateLimiter = setTimeout(async () => {
+      try {
+        const response = await fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
+        const data = await response.json();
+        setQuestions(data);
+        setIsLoading(false);
+      } catch (err) {
+        console.log(err);
+      }
+    }, 3000);
+
   }
 
   useEffect(() => {
     fetchQuestions();
-  }, []);
+  }, [difficulty]);
 
   useEffect(() => {
     if (questions && isRunning && !isLoading) {
@@ -68,13 +73,22 @@ export default function Home() {
     setIsRunning(true);
   }
 
+  const selectDifficulty = (difficulty) => {
+    setIsLoading(true);
+    setQuestions(null);
+    setDifficulty(difficulty);
+    setIsRunning(false);
+  }
+
   if (isLoading) {
     return (
       <div>Fetching Questions</div>
     )
   }
 
-  const isFinished = questions && questionIndex >= questions.results.length;
+
+  const isFinished = questions?.results && questionIndex >= questions.results.length;
+
 
   if (questions && !isFinished && isRunning) {
     return (
@@ -83,7 +97,6 @@ export default function Home() {
           score,
           countdown
         }}>
-
           <QuestionCard
             result={questions.results[questionIndex]}
             checkAnswer={checkAnswer}
@@ -97,6 +110,10 @@ export default function Home() {
     return (
       <div>
         <h1>Start Game</h1>
+        <DifficultySelector
+          selectDifficulty={selectDifficulty}
+          difficulty={difficulty}
+        />
         < StartButton
           start={startGame}
         />
@@ -111,6 +128,10 @@ export default function Home() {
             score={score}
           />
         </ScoreTimeContext.Provider>
+        <DifficultySelector
+          selectDifficulty={selectDifficulty}
+          difficulty={difficulty}
+        />
         <StartButton
           start={startGame}
         />
