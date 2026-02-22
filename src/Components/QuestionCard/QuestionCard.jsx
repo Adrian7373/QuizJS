@@ -16,7 +16,7 @@ export default function QuestionCard({ result, checkAnswer, score, timer }) {
             <p className={style.question} dangerouslySetInnerHTML={{ __html: result.question }}></p>
             <div className={style.answers}>
                 {shuffledAnswers.map((answer, index) => {
-                    return <button key={index} onClick={() => checkAnswer(answer)}>{answer}</button>
+                    return <button dangerouslySetInnerHTML={{ __html: answer }} key={index} onClick={() => checkAnswer(answer)}></button>
                 })}
             </div>
         </div>

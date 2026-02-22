@@ -8,6 +8,7 @@ import Timer from "@/Components/Timer/Timer";
 import StartButton from "@/Components/StartButton/StartButton";
 import { ScoreTimeContext } from "@/context/ScoreTime";
 import DifficultySelector from "@/Components/DifficultySelector/DifficultySelector";
+import Loading from "@/Components/Loading/Loading";
 
 export default function Home() {
 
@@ -82,7 +83,7 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div>Fetching Questions</div>
+      <Loading />
     )
   }
 
@@ -108,8 +109,8 @@ export default function Home() {
     )
   } else if (!isRunning) {
     return (
-      <div>
-        <h1>Start Game</h1>
+      <div className={style.initialDiv}>
+        <p>Start Game</p>
         <DifficultySelector
           selectDifficulty={selectDifficulty}
           difficulty={difficulty}
@@ -121,8 +122,8 @@ export default function Home() {
     )
   } else {
     return (
-      <div>
-        <h1>Game Over</h1>
+      <div className={style.gameOverDiv}>
+        <p>Congratulations!</p>
         <ScoreTimeContext.Provider value={{ score }}>
           <Score
             score={score}
