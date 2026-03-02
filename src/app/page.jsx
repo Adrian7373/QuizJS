@@ -9,6 +9,7 @@ import StartButton from "@/Components/StartButton/StartButton";
 import { ScoreTimeContext } from "@/context/ScoreTime";
 import DifficultySelector from "@/Components/DifficultySelector/DifficultySelector";
 import Loading from "@/Components/Loading/Loading";
+import Category from "@/Components/Category/Category";
 
 export default function Home() {
 
@@ -19,15 +20,23 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRunning, setIsRunning] = useState(false);
   const [difficulty, setDifficulty] = useState("easy");
+  const [category, setCategory] = useState("");
   const intervalRef = useRef(null);
 
   const fetchQuestions = () => {
     const rateLimiter = setTimeout(async () => {
       try {
-        const response = await fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
-        const data = await response.json();
-        setQuestions(data);
-        setIsLoading(false);
+        if (!category) {
+          const response = await fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
+          const data = await response.json();
+          setQuestions(data);
+          setIsLoading(false);
+        } else {
+          const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`);
+          const data = await response.json();
+          setQuestions(data);
+          setIsLoading(false);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -37,7 +46,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchQuestions();
-  }, [difficulty]);
+  }, [difficulty, category]);
 
   useEffect(() => {
     if (questions && isRunning && !isLoading) {
@@ -81,6 +90,13 @@ export default function Home() {
     setIsRunning(false);
   }
 
+  const selectCategory = (category) => {
+    setIsLoading(true);
+    setQuestions(null);
+    setCategory(category);
+    setIsRunning(false);
+  }
+
   if (isLoading) {
     return (
       <Loading />
@@ -115,6 +131,10 @@ export default function Home() {
           selectDifficulty={selectDifficulty}
           difficulty={difficulty}
         />
+        <Category
+          category={category}
+          selectCategory={selectCategory}
+        />
         < StartButton
           start={startGame}
         />
@@ -132,6 +152,10 @@ export default function Home() {
         <DifficultySelector
           selectDifficulty={selectDifficulty}
           difficulty={difficulty}
+        />
+        <Category
+          category={category}
+          selectCategory={selectCategory}
         />
         <StartButton
           start={startGame}
