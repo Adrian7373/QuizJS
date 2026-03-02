@@ -5,15 +5,18 @@ QuizJS is an interactive, timed trivia application built using **Next.js** and *
 ## 🚀 Features
 
 * **Dynamic Trivia:** Automatically fetches 10 random multiple-choice questions per game using the [Open Trivia Database (OpenTDB) API](https://opentdb.com/).
-* **Countdown Timer:** The pressure is on! You have exactly 15 seconds to answer each question. If the timer hits zero, the game automatically advances to the next question.
-* **Score Tracking:** Keeps a running tally of your correct answers.
-* **Seamless Replayability:** Once you finish the 10 questions, you can instantly hit "Start" to fetch a fresh batch of questions and play again.
-* **Component-Based UI:** Built with clean, separate React components for the timer, score, question cards, and start button.
+* **Difficulty Selection:** Tailor the challenge to your skill level by choosing between Easy, Medium, or Hard before starting a game.
+* **Smart Answer Shuffling:** Question choices are dynamically shuffled every time they render so the correct answer is never in the same place twice.
+* **Countdown Timer:** The pressure is on! You have exactly 15 seconds to answer each question.
+* **Dedicated Game Screens:** Features clean UI transitions between the Initial Start screen, the active Quiz, and a "Congratulations!" Game Over screen.
+* **Global State Management:** Utilizes the React Context API to efficiently pass score and timer data down the component tree.
+* **HTML Parsing:** Safely renders complex HTML entities (like quotes and special characters) returned by the API for clean, readable text.
 
 ## 🛠️ Technologies Used
 
 * **Framework:** [Next.js](https://nextjs.org/) (v16.1.6)
 * **Library:** [React](https://react.dev/) (v19.2.3)
+* **State Management:** React Context API
 * **API:** [Open Trivia Database](https://opentdb.com/)
 * **Styling:** CSS Modules
 
@@ -22,19 +25,17 @@ QuizJS is an interactive, timed trivia application built using **Next.js** and *
 ```text
 /src
 ├── app
-│   ├── page.jsx                # Main game logic, state management, and API fetching
+│   ├── page.jsx                # Main game routing, state management, and API fetching
 │   └── page.module.css         # Main layout styling
-└── Components
-    ├── QuestionCard
-    │   └── QuestionCard.jsx    # Renders the current question and answer buttons
-    ├── Score
-    │   ├── Score.jsx           # Displays the current score
-    │   └── Score.module.css
-    ├── StartButton
-    │   └── StartButton.jsx     # Button to initialize/restart the game
-    └── Timer
-        ├── Timer.jsx           # Renders the countdown timer (15s to 0s)
-        └── Timer.module.css
+├── Components
+│   ├── DifficultySelector      # Dropdown for selecting Easy/Medium/Hard
+│   ├── Loading                 # Custom loading spinner UI
+│   ├── QuestionCard            # Renders questions and shuffled answer buttons
+│   ├── Score                   # Displays the current/final score
+│   ├── StartButton             # Button to initialize/restart the game
+│   └── Timer                   # Renders the countdown timer (15s to 0s)
+└── context
+    └── ScoreTime.jsx           # React Context for global score and timer state
 
 ```
 
@@ -62,9 +63,9 @@ Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:30
 
 ## 🔮 Future Improvements
 
-* **Answer Shuffling:** Currently, the correct answer and incorrect answers render in a fixed order. An excellent next step would be implementing a randomizer array (like the Fisher-Yates shuffle) in `QuestionCard.jsx` so the correct answer moves around!
-* **Difficulty Selection:** Add a dropdown menu to let users pass a `&difficulty=easy/medium/hard` parameter into the API fetch URL.
-* **End Screen:** Add a dedicated "Game Over" screen that displays the final percentage score and feedback before showing the restart button.
+* **Category Selection:** Expand the pre-game menu to let users choose specific trivia categories (e.g., Science, History, Video Games) alongside the difficulty.
+* **High Score Tracking:** Implement `localStorage` to save the user's highest score across different sessions.
+* **Audio Feedback:** Add short, satisfying sound effects for correct answers, wrong answers, and when the timer is running low.
 
 ## 🤝 Contributing
 
