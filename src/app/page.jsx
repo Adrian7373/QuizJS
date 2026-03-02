@@ -22,6 +22,7 @@ export default function Home() {
   const [isRunning, setIsRunning] = useState(false);
   const [difficulty, setDifficulty] = useState("easy");
   const [category, setCategory] = useState("");
+  const [isShowingAnswer, setIsShowingAnswer] = useState(false);
   const intervalRef = useRef(null);
 
   const fetchQuestions = async () => {
@@ -60,10 +61,14 @@ export default function Home() {
   }, [countdown]);
 
   const checkAnswer = (answer) => {
-    if (answer === questions.results[questionIndex].correct_answer) {
-      setScore((prevScore) => prevScore + 1);
-    }
-    setQuestionIndex((prevIndex) => prevIndex + 1)
+    setIsShowingAnswer(true);
+    setTimeout(() => {
+      if (answer === questions.results[questionIndex].correct_answer) {
+        setScore((prevScore) => prevScore + 1);
+      }
+      setQuestionIndex((prevIndex) => prevIndex + 1)
+      setIsShowingAnswer(false);
+    }, 3000);
   }
 
 
@@ -102,6 +107,14 @@ export default function Home() {
     } else {
       localStorage.setItem("highscore", score);
     }
+  }
+
+  if (isShowingAnswer) {
+    return (
+      <ShowAnswer
+        correctAnswer={questions.results[questionIndex].correct_answer}
+      />
+    )
   }
 
   if (questions && !isFinished && isRunning) {

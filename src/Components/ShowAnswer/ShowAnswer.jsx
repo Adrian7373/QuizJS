@@ -1,10 +1,10 @@
-
+import style from "./ShowAnswer.module.css";
 
 export default function ShowAnswer({ correctAnswer }) {
     return (
-        <div>
+        <div className={style.answerDiv}>
             <p>Correct Answer is</p>
-            <p>{correctAnswer}</p>
+            <p className={style.answer}>{correctAnswer}</p>
         </div>
     )
 }
