@@ -17,7 +17,7 @@ export default function Home() {
   const [score, setScore] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [countdown, setCountdown] = useState(15000);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [difficulty, setDifficulty] = useState("easy");
   const [category, setCategory] = useState("");
@@ -45,10 +45,6 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchQuestions();
-  }, [difficulty, category]);
-
-  useEffect(() => {
     if (questions && isRunning && !isLoading) {
       setCountdown(15000);
       intervalRef.current = setInterval(() => {
@@ -74,24 +70,21 @@ export default function Home() {
   }
 
   const startGame = () => {
-    if (isFinished) {
-      setIsLoading(true);
-      fetchQuestions();
-    }
+    setIsLoading(true);
     setQuestionIndex(0);
     setScore(0);
+    fetchQuestions();
     setIsRunning(true);
+    console.log(isRunning);
   }
 
   const selectDifficulty = (difficulty) => {
-    setIsLoading(true);
     setQuestions(null);
     setDifficulty(difficulty);
     setIsRunning(false);
   }
 
   const selectCategory = (category) => {
-    setIsLoading(true);
     setQuestions(null);
     setCategory(category);
     setIsRunning(false);
