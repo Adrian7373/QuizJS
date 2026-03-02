@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import style from "./QuestionCard.module.css";
 
-export default function QuestionCard({ result, checkAnswer, score, timer }) {
+export default function QuestionCard({ result, checkAnswer, score, timer, questionIndex }) {
 
     const shuffledAnswers = useMemo(() => {
         const combined = [...result.incorrect_answers, result.correct_answer];
@@ -13,6 +13,7 @@ export default function QuestionCard({ result, checkAnswer, score, timer }) {
     return (
         <div className={style.card}>
             <div className={style.info}>{score}{timer}</div>
+            <p>Question {questionIndex} of 10</p>
             <p className={style.question} dangerouslySetInnerHTML={{ __html: result.question }}></p>
             <div className={style.answers}>
                 {shuffledAnswers.map((answer, index) => {
