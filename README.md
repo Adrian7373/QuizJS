@@ -5,7 +5,9 @@ QuizJS is an interactive, timed trivia application built using **Next.js** and *
 ## 🚀 Features
 
 * **Dynamic Trivia:** Automatically fetches 10 random multiple-choice questions per game using the [Open Trivia Database (OpenTDB) API](https://opentdb.com/).
+* **Category Selection:** Customize your game by choosing from over 20 specific trivia categories (including Science, History, Video Games, Anime, and more) or stick to mixed general knowledge.
 * **Difficulty Selection:** Tailor the challenge to your skill level by choosing between Easy, Medium, or Hard before starting a game.
+* **Optimized API Fetching:** Data fetching logic has been optimized to only trigger when a game intentionally starts, preventing unnecessary background API calls and avoiding rate-limit restrictions.
 * **Smart Answer Shuffling:** Question choices are dynamically shuffled every time they render so the correct answer is never in the same place twice.
 * **Countdown Timer:** The pressure is on! You have exactly 15 seconds to answer each question.
 * **Dedicated Game Screens:** Features clean UI transitions between the Initial Start screen, the active Quiz, and a "Congratulations!" Game Over screen.
@@ -28,6 +30,7 @@ QuizJS is an interactive, timed trivia application built using **Next.js** and *
 │   ├── page.jsx                # Main game routing, state management, and API fetching
 │   └── page.module.css         # Main layout styling
 ├── Components
+│   ├── Category                # Dropdown for selecting specific trivia categories
 │   ├── DifficultySelector      # Dropdown for selecting Easy/Medium/Hard
 │   ├── Loading                 # Custom loading spinner UI
 │   ├── QuestionCard            # Renders questions and shuffled answer buttons
@@ -63,9 +66,9 @@ Open [http://localhost:3000](https://www.google.com/search?q=http://localhost:30
 
 ## 🔮 Future Improvements
 
-* **Category Selection:** Expand the pre-game menu to let users choose specific trivia categories (e.g., Science, History, Video Games) alongside the difficulty.
 * **High Score Tracking:** Implement `localStorage` to save the user's highest score across different sessions.
 * **Audio Feedback:** Add short, satisfying sound effects for correct answers, wrong answers, and when the timer is running low.
+* **Mobile Responsiveness:** Polish the UI to ensure buttons and layouts scale perfectly on smaller devices.
 
 ## 🤝 Contributing
 
