@@ -10,6 +10,7 @@ import { ScoreTimeContext } from "@/context/ScoreTime";
 import DifficultySelector from "@/Components/DifficultySelector/DifficultySelector";
 import Loading from "@/Components/Loading/Loading";
 import Category from "@/Components/Category/Category";
+import ShowAnswer from "@/Components/ShowAnswer/ShowAnswer";
 
 export default function Home() {
 
@@ -23,25 +24,22 @@ export default function Home() {
   const [category, setCategory] = useState("");
   const intervalRef = useRef(null);
 
-  const fetchQuestions = () => {
-    const rateLimiter = setTimeout(async () => {
-      try {
-        if (!category) {
-          const response = await fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
-          const data = await response.json();
-          setQuestions(data);
-          setIsLoading(false);
-        } else {
-          const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`);
-          const data = await response.json();
-          setQuestions(data);
-          setIsLoading(false);
-        }
-      } catch (err) {
-        console.log(err);
+  const fetchQuestions = async () => {
+    try {
+      if (!category) {
+        const response = await fetch(`https://opentdb.com/api.php?amount=10&difficulty=${difficulty}&type=multiple`);
+        const data = await response.json();
+        setQuestions(data);
+        setIsLoading(false);
+      } else {
+        const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${category}&difficulty=${difficulty}&type=multiple`);
+        const data = await response.json();
+        setQuestions(data);
+        setIsLoading(false);
       }
-    }, 3000);
-
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
@@ -54,12 +52,12 @@ export default function Home() {
     return () => clearInterval(intervalRef.current);
   }, [questionIndex, isRunning, isLoading])
 
-  /*
+
   useEffect(() => {
     if (countdown <= 0) {
       setQuestionIndex((index) => index + 1);
     }
-  }, [countdown]); */
+  }, [countdown]);
 
   const checkAnswer = (answer) => {
     if (answer === questions.results[questionIndex].correct_answer) {
@@ -67,6 +65,7 @@ export default function Home() {
     }
     setQuestionIndex((prevIndex) => prevIndex + 1)
   }
+
 
   const startGame = () => {
     setIsLoading(true);
@@ -94,7 +93,6 @@ export default function Home() {
     )
   }
 
-
   const isFinished = questions?.results && questionIndex >= questions.results.length;
   if (isFinished) {
     const prevHighScore = localStorage.getItem("highscore")
@@ -105,7 +103,6 @@ export default function Home() {
       localStorage.setItem("highscore", score);
     }
   }
-
 
   if (questions && !isFinished && isRunning) {
     return (
@@ -119,6 +116,7 @@ export default function Home() {
             checkAnswer={checkAnswer}
             score={<Score />}
             timer={<Timer />}
+            questionIndex={questionIndex}
           ></QuestionCard>
         </ScoreTimeContext.Provider>
       </div>
