@@ -50,7 +50,6 @@ export default function Home() {
       intervalRef.current = setInterval(() => {
         setCountdown((prevTime) => prevTime - 1000);
       }, 1000);
-      console.log("Timer started");
     }
     return () => clearInterval(intervalRef.current);
   }, [questionIndex, isRunning, isLoading])
@@ -75,7 +74,6 @@ export default function Home() {
     setScore(0);
     fetchQuestions();
     setIsRunning(true);
-    console.log(isRunning);
   }
 
   const selectDifficulty = (difficulty) => {
@@ -98,6 +96,15 @@ export default function Home() {
 
 
   const isFinished = questions?.results && questionIndex >= questions.results.length;
+  if (isFinished) {
+    const prevHighScore = localStorage.getItem("highscore")
+    if (prevHighScore) {
+      if (score > prevHighScore)
+        localStorage.setItem("highscore", score);
+    } else {
+      localStorage.setItem("highscore", score);
+    }
+  }
 
 
   if (questions && !isFinished && isRunning) {
@@ -141,6 +148,7 @@ export default function Home() {
           <Score
             score={score}
           />
+          <p className={style.highScore}>Highest Score: {localStorage.getItem("highscore")}</p>
         </ScoreTimeContext.Provider>
         <DifficultySelector
           selectDifficulty={selectDifficulty}

@@ -23,7 +23,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
-.gameOverDiv>p {
+.gameOverDiv>:nth-child(1) {
     font-size: 80px;
     font-weight: bold;
 }
@@ -45,4 +45,8 @@
 .initialDiv>p {
     font-size: 80px;
     font-weight: bold;
+}
+
+.highScore {
+    font-size: 24px;
 }
