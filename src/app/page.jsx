@@ -44,14 +44,14 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (questions && isRunning && !isLoading) {
+    if (questions && isRunning && !isLoading && !isShowingAnswer) {
       setCountdown(15000);
       intervalRef.current = setInterval(() => {
         setCountdown((prevTime) => prevTime - 1000);
       }, 1000);
     }
     return () => clearInterval(intervalRef.current);
-  }, [questionIndex, isRunning, isLoading])
+  }, [questionIndex, isRunning, isLoading, isShowingAnswer])
 
 
   useEffect(() => {
